@@ -1,0 +1,21 @@
+{
+  "name": "nodeexpress",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongoose": "^8.19.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
