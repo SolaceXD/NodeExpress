@@ -9,14 +9,20 @@ connectDB();
 
 //Crear una carta
 app.post("/createCard", async (req, res) => {
-    try{
-        const card = await Card.create(req.body);
-        //vamos a regresar la cart creada por mongoDB
-        res.status(201).json(card).send("Card created succesfully");
-    } catch (error) {
-        res.status(400).json({ error: " Error creating card", details: error.message });
-    }
+  try {
+    const card = await Card.create(req.body);
+    res.status(201).json({
+      message: "Card created successfully",
+      card
+    });
+  } catch (error) {
+    res.status(400).json({
+      error: "Error creating card",
+      details: error.message
+    });
+  }
 });
+
 
 app.put("/updateCard/:id", async (req, res) => {
   try {
