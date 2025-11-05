@@ -7,6 +7,7 @@ dotenv.config();
 app.use(express.json());
 connectDB();
 
+//Crear una carta
 app.post("/createCard", async (req, res) => {
     try{
         const card = await Card.create(req.body);
