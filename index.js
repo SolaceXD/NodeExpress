@@ -78,6 +78,21 @@ app.delete("/deleteCard/:id", async (req, res) => {
   }
 });
 
+app.get("/review", (req, res) => {
+  const endpoints = `
+  ==== ENDPOINTS DISPONIBLES ====
+
+  POST   /createCard       → Crear una carta
+  PUT    /updateCard/:id   → Actualizar una carta
+  POST   /addCard          → Agregar una carta (con verificación)
+  GET    /getCard/:id      → Obtener carta por ID
+  GET    /getCards         → Obtener todas las cartas
+  DELETE /deleteCard/:id   → Eliminar carta
+  GET    /review           → Muestra esta lista
+  `;
+  res.status(200).send(endpoints);
+});
+
 app.post("/cards", async (req, res) => {
     try{
         const card= await Card.create(req.body);
