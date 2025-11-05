@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
-const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://Outer:Outer@cluster0.hgrj1r3.mongodb.net/novenoa";
+const MONGO_URI = process.env.MONGO_URI;
 
 export const connectDB = async () => {
   try {
