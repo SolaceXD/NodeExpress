@@ -86,7 +86,7 @@ app.get("/review", (req, res) => {
   PUT    /updateCard/:id   → Actualizar una carta
   POST   /addCard          → Agregar una carta (con verificación)
   GET    /getCard/:id      → Obtener carta por ID
-  GET    /getCards         → Obtener todas las cartas
+  GET    /getAllCards         → Obtener todas las cartas
   DELETE /deleteCard/:id   → Eliminar carta
   GET    /review           → Muestra esta lista
   `;
