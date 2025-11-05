@@ -2,9 +2,10 @@ import express from "express";
 import { connectDB } from "./db.js";
 import { Card } from "./models/Card.js";
 const app = express();
-connectDB();
-
+import dotenv from "dotenv";
+dotenv.config();
 app.use(express.json());
+connectDB();
 
 app.post("/createCard", async (req, res) => {
     try{
@@ -12,19 +13,62 @@ app.post("/createCard", async (req, res) => {
         //vamos a regresar la cart creada por mongoDB
         res.status(201).json(card).send("Card created succesfully");
     } catch (error) {
-        res.status(400).setDefaultEncoding(error);
-        console.error(error);
+        res.status(400).json({ error: " Error creating card", details: error.message });
     }
 });
 
-app.get("/getAllCards", async (req, res) => {
-    try {
-        const cards = Card.find();
-        res.status(200).json(cards);
-    } catch (error) {
-        res.status(400).send(error);
-        console.error(error);
+app.put("/updateCard/:id", async (req, res) => {
+  try {
+    const updatedCard = await Card.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedCard) return res.status(404).json({ error: "Card not found" });
+    res.status(200).json({ message: " Card updated successfully!", updatedCard });
+  } catch (error) {
+    res.status(400).json({ error: " Error updating card", details: error.message });
+  }
+});
+
+app.post("/addCard", async (req, res) => {
+  try {
+    const existing = await Card.findOne({ name: req.body.name });
+    if (existing) {
+      return res.status(409).json({ message: " Card with that name already exists" });
     }
+    const newCard = await Card.create(req.body);
+    res.status(201).json({ message: " Card added successfully!", newCard });
+  } catch (error) {
+    res.status(400).json({ error: " Error adding card", details: error.message });
+  }
+});
+
+// Obtener una carta por ID
+app.get("/getCard/:id", async (req, res) => {
+  try {
+    const card = await Card.findById(req.params.id);
+    if (!card) return res.status(404).json({ error: "Card not found" });
+    res.status(200).json(card);
+  } catch (error) {
+    res.status(400).json({ error: " Invalid card ID", details: error.message });
+  }
+});
+
+app.get("/getAllCards", async (req, res) => {
+  try {
+    const cards = await Card.find();
+    res.status(200).json(cards);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: "Error retrieving cards", details: error.message });
+  }
+});
+
+app.delete("/deleteCard/:id", async (req, res) => {
+  try {
+    const deleted = await Card.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ error: "Card not found" });
+    res.status(200).json({ message: " Card deleted successfully!" });
+  } catch (error) {
+    res.status(400).json({ error: " Error al eliminar la carta", details: error.message });
+  }
 });
 
 app.post("/cards", async (req, res) => {
@@ -56,6 +100,6 @@ app.post("/send", (req, res) => {
     res.status(200).send("Data received successfully");
 });
 
-app.listen(3000, () => {
-    console.log("Servidor ejecutándose en http://localhost:3000");
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Servidor ejecutándose en http://localhost:3000");
 });
