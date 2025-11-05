@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
-const MONGO_URI = "mongodb+srv://Outer:Outer@cluster0.hgrj1r3.mongodb.net/novenoa";
+const MONGO_URI = process.env.MONGO_URI || "mongodb+srv://Outer:Outer@cluster0.hgrj1r3.mongodb.net/novenoa";
 
 export const connectDB = async () => {
   try {
     await mongoose.connect(MONGO_URI);
-    console.log("MongoDB Connected Succesfully!!!!!!!!");
+    console.log("MongoDB Connected Successfully!");
   } catch (error) {
-    console.log("Mongo DB Connected Failed");
+    console.error("MongoDB Connection Failed:", error);
   }
-}
+};
