@@ -1,12 +1,15 @@
 import express from "express";
 import { connectDB } from "./db.js";
 import { Card } from "./models/Card.js";
+const express = require("express");
+const cors = require("cors");
 const app = express();
 import dotenv from "dotenv";
 dotenv.config();
 app.use(express.json());
 connectDB();
 
+app.use(cors());
 //Crear una carta
 app.post("/createCard", async (req, res) => {
   try {
