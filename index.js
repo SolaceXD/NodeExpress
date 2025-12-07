@@ -117,18 +117,13 @@ app.get("/Hello", (req, res) => {
     res.status(200).send("Hola mundo desde el servidor express de nuevo");
 });
 
-const PORT = process.env.PORT;
-app.listen(PORT);
-app.listen(PORT, () => {
-    console.log('Servidor Ejecutandose en http://localhost:${PORT}')
-});
-
 app.post("/send", (req, res) => {
     const { user, email } = req.body;
     console.log("Datos recibidos: " + user + " " + email);
     res.status(200).send("Data received successfully");
 });
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log("Servidor ejecutándose en http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
 });
